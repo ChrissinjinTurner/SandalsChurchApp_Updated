@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Sandals Church Sermons</string>
+    <string name="latest_sermon">Latest Sermon:</string>
+    <string name="other_series">Our Series:</string>
+    <string name="sermons">Sermons:</string>
+</resources>
