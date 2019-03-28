@@ -133,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the adapter that will populate the Sermon info on the main page
+     * @param sermons a list of sermons gathered from the API
+     */
     private void initSermonAdaptor(ArrayList<Sermon> sermons) {
         RecyclerView recyclerView = findViewById(R.id.sermonlist);
         SermonAdapter adapter = new SermonAdapter(sermons, this);
@@ -140,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Iniitalizes the adapter that will populate the Series info on the main page
+     * @param series a list of series gathered from the API
+     */
     private void initSeriesAdapter(ArrayList<Series> series) {
         RecyclerView recyclerView = findViewById(R.id.seriesList);
         SeriesAdapter adapter = new SeriesAdapter(series, this);

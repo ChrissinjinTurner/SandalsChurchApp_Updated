@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -117,6 +116,10 @@ public class SeriesListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes the adapter that will populate the Sermon info on the main page
+     * @param sermons a list of sermons gathered from the API
+     */
     private void initSermonAdaptor(ArrayList<Sermon> sermons) {
         RecyclerView recyclerView = findViewById(R.id.seriesList);
         SermonAdapter adapter = new SermonAdapter(sermons, this);

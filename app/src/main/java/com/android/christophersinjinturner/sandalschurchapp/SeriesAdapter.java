@@ -15,15 +15,26 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter is used to convert the JSON data that is gathered from the API into a recyclerView
+ * that will be displayed on the page.
+ */
 public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder>{
     private ArrayList<Series> dataSet;
     private Context mContext;
 
+    // This is just the default constructor
     public SeriesAdapter(ArrayList<Series> dataSet, Context context) {
         this.dataSet = dataSet;
         mContext = context;
     }
 
+    /**
+     * Inflates the view that will be used for list item
+     * @param viewGroup
+     * @param i
+     * @return
+     */
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_series, viewGroup, false);
@@ -31,6 +42,11 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
         return holder;
     }
 
+    /**
+     * populates the data into the item view, as well as setting a listener to listen for clicks on the page.
+     * @param viewHolder
+     * @param i
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Series series = dataSet.get(i);
@@ -50,11 +66,18 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
         });
     }
 
+    /**
+     * returns the size of the data
+     * @return
+     */
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
 
+    /**
+     * This is a viewholder class which helps to convert the data into something that can be dispalyed on the screen
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView seriesTitle;
