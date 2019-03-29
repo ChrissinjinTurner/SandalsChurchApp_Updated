@@ -1,5 +1,6 @@
 package com.android.christophersinjinturner.sandalschurchapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -24,6 +25,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SeriesListActivity extends AppCompatActivity {
+
+    private static ArrayList<Sermon> mSermons = new ArrayList<>();
+    private SermonAdapter adapter;
+
     /**
      * This creates the layout and populates the data.
      * @param savedInstanceState
@@ -36,13 +41,19 @@ public class SeriesListActivity extends AppCompatActivity {
         // handles converting all the data to the layout items needed to display
         final Series series = (Series) getIntent().getSerializableExtra("series");
 
-        String url = series.getFeed_url();
+        final String url = series.getFeed_url();
 
-        try {
-            populateSermonList(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.d("CALL", "run: call made");
+                    populateSermonList(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         TextView seriesTitle = findViewById(R.id.seriesTitle);
         seriesTitle.setText(series.getTitle());
@@ -59,6 +70,12 @@ public class SeriesListActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+
+        //attempting to fix bug on pixel
+        RecyclerView recyclerView = findViewById(R.id.seriesList);
+        adapter = new SermonAdapter(mSermons, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
@@ -70,17 +87,19 @@ public class SeriesListActivity extends AppCompatActivity {
         // sets up the request to the API and makes the request.
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
-
+        Log.d("SERMON", "populateSermonList: in sermons list");
         client.newCall(request).enqueue(new Callback() {
             // cancels if the call fails
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("CALL", "onFailure: call failed\n" + e);
                 call.cancel();
             }
 
             // sets all the data into an object and puts it in an array
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
+                Log.d("RESPONSE", "onResponse: response received");
                 final String callResponse = response.body().string();
                 SeriesListActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -119,10 +138,11 @@ public class SeriesListActivity extends AppCompatActivity {
      * @param sermons a list of sermons gathered from the API
      */
     private void initSermonAdaptor(ArrayList<Sermon> sermons) {
-        RecyclerView recyclerView = findViewById(R.id.seriesList);
-        SermonAdapter adapter = new SermonAdapter(sermons, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        RecyclerView recyclerView = findViewById(R.id.seriesList);
+//        SermonAdapter adapter = new SermonAdapter(sermons, this);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.refreshData(sermons);
     }
 
     /**

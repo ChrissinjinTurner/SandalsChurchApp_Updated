@@ -1,5 +1,6 @@
 package com.android.christophersinjinturner.sandalschurchapp;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,9 @@ import android.widget.VideoView;
  * This handles the displaying of the Sermon Detail
  */
 public class SermonDetailActivity extends AppCompatActivity {
+
+    private MediaController mediaController;
+    private VideoView sermonVid;
 
     /**
      * This creates the layout and populates the data.
@@ -47,8 +51,8 @@ public class SermonDetailActivity extends AppCompatActivity {
         sermonDesc.setMovementMethod(new ScrollingMovementMethod()); // allows you to scroll if the desc is too long
 
         // sets up the video player and locks the controls to the videoview.
-        VideoView sermonVid = findViewById(R.id.sermonVideo);
-        MediaController mediaController = new MediaController(this);
+        sermonVid = findViewById(R.id.sermonVideo);
+        mediaController = new MediaController(this);
         sermonVid.setMediaController(mediaController);
         mediaController.setAnchorView(sermonVid);
         Uri uri = Uri.parse(sermon.getMp4_sd());
@@ -70,5 +74,17 @@ public class SermonDetailActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        mediaController.hide();
+        sermonVid.stopPlayback();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(AudioServiceContext.getContext(newBase));
     }
 }
