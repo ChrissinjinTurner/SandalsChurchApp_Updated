@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,5 +95,11 @@ public class SermonAdapter extends RecyclerView.Adapter<SermonAdapter.ViewHolder
             sermonPic = itemView.findViewById(R.id.pic);
             parentLayout = itemView.findViewById(R.id.parent_layout_sermon);
         }
+    }
+
+    public void refreshData(ArrayList<Sermon> sermons){
+        Log.d("DATA", "initSermonAdaptor: data grabbed");
+        this.dataSet = sermons;
+        notifyDataSetChanged();
     }
 }
