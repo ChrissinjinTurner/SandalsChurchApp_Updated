@@ -33,14 +33,16 @@ public class SeriesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.series_list);
 
-        // handles the back button
-        final ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-
         // handles converting all the data to the layout items needed to display
         final Series series = (Series) getIntent().getSerializableExtra("series");
+
+        String url = series.getFeed_url();
+
+        try {
+            populateSermonList(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         TextView seriesTitle = findViewById(R.id.seriesTitle);
         seriesTitle.setText(series.getTitle());
@@ -52,14 +54,11 @@ public class SeriesListActivity extends AppCompatActivity {
         TextView seriesDate = findViewById(R.id.seriesDate);
         seriesDate.setText(series.getDate());
 
-        String url = series.getFeed_url();
-
-        try {
-            populateSermonList(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        // handles the back button
+        final ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
     }
 
     /**
@@ -81,8 +80,7 @@ public class SeriesListActivity extends AppCompatActivity {
 
             // sets all the data into an object and puts it in an array
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d("RESPONSE", "onResponse: HELLO");
+            public void onResponse(Call call, final Response response) throws IOException {
                 final String callResponse = response.body().string();
                 SeriesListActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -105,8 +103,8 @@ public class SeriesListActivity extends AppCompatActivity {
                                 sermonItem.setMp4_hd(sermonObj.getString("mp4_hd"));
                                 sermons.add(sermonItem);
                             }
-                            Log.d("NEW_SERMON", "run: " + sermons.toString());
                             initSermonAdaptor(sermons);
+                            response.close();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

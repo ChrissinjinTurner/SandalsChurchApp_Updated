@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
             // this handles the response from the API, creating a Sermon Object with the information.
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 final String callResponse = response.body().string();
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                             sermons.add(lastSermon);
 
                             initSermonAdaptor(sermons);
+                            response.close();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
             // this handles the response from the API, creating a Series Object with the information.
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 final String callResponse = response.body().string();
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             initSeriesAdapter(series);
+                            response.close();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
