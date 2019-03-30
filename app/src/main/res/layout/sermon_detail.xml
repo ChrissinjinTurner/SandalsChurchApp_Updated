@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/sermonVideoFrame"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -15,17 +15,14 @@
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/sermonVideo"
+            app:controller_layout_id="@layout/custom_playback_control"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp" />
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
