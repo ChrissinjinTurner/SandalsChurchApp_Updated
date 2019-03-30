@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SermonDetailActivity"></activity>
+        <activity android:name=".SermonDetailActivity"
+            android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".SeriesListActivity"
             android:screenOrientation="portrait"></activity>
     </application>

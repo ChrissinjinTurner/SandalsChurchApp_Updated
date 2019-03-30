@@ -1,23 +1,20 @@
 package com.android.christophersinjinturner.sandalschurchapp;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -38,8 +35,6 @@ public class SermonDetailActivity extends AppCompatActivity {
     private final String STATE_RESUME_POSITION = "resumePosition";
     private final String STATE_PLAYER_FULLSCREEN = "playerFullscreen";
 
-    private MediaController mediaController;
-    private VideoView sermonVid;
     private Uri sermonUri;
     private PlayerView mExoPlayerView;
     private SimpleExoPlayer player;
@@ -114,18 +109,18 @@ public class SermonDetailActivity extends AppCompatActivity {
      * Default setup for exoplayer video
      */
     private void initExoPlayer() {
-        Log.d("InitExoPlayer", "initExoPlayer: Made it here ***");
         player = ExoPlayerFactory.newSimpleInstance(this, new DefaultRenderersFactory(this),
                 new DefaultTrackSelector(), new DefaultLoadControl());
-        Log.d("EXO_Player", "initExoPlayer: " + player);
-        Log.d("EXO_PLAYERVIEW", "initExoPlayer: " + mExoPlayerView);
         mExoPlayerView.setPlayer(player);
 
-        mExoPlayerView.getPlayer().seekTo(mResumeWindow, mResumePosition);
+        boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
+
+        if (haveResumePosition) {
+            mExoPlayerView.getPlayer().seekTo(mResumeWindow, mResumePosition);
+        }
     }
 
     private void initFullscreenDialog() {
-        Log.d("FullScreenDialog", "initFullscreenDialog: Made it here ***");
         mFullScreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
             public void onBackPressed() {
                 if (mExoPlayerFullscreen)
@@ -155,7 +150,6 @@ public class SermonDetailActivity extends AppCompatActivity {
 
 
     private void initFullscreenButton() {
-        Log.d("FullScreenButton", "initFullscreenButton: Made it here ***");
         PlayerControlView controlView = mExoPlayerView.findViewById(R.id.exo_controller);
         mFullScreenIcon = controlView.findViewById(R.id.exo_fullscreen_icon);
         mFullScreenButton = controlView.findViewById(R.id.exo_fullscreen_button);
@@ -172,7 +166,6 @@ public class SermonDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.d("Resume", "onResume: Made it here ***");
         super.onResume();
         initExoPlayer();
         if (mExoPlayerView != null) {
@@ -180,11 +173,8 @@ public class SermonDetailActivity extends AppCompatActivity {
             mExoPlayerView = findViewById(R.id.sermonVideo);
             initFullscreenDialog();
             initFullscreenButton();
-            Log.d("MADEITHERE", "onResume: " + sermonUri);
 
             mVideoSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("Sandals-sermosn")).createMediaSource(sermonUri);
-            Log.d("MVIDEO", "onResume: " + mVideoSource);
-            Log.d("PLAYER", "onResume: " + player);
             player.prepare(mVideoSource, true, false);
         }
 
@@ -227,16 +217,4 @@ public class SermonDetailActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-//    @Override
-//    public void onDestroy() {
-//        mediaController.hide();
-//        sermonVid.stopPlayback();
-//        super.onDestroy();
-//    }
-
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(AudioServiceContext.getContext(newBase));
-//    }
 }
