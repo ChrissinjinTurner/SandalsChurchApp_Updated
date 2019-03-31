@@ -28,6 +28,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 /**
  * This handles the displaying of the Sermon Detail
+ *
+ * Fullscreen implementation was added using these websites as help:
+ * https://github.com/GeoffLedak/ExoplayerFullscreen/blob/master/app/src/main/java/com/geoffledak/exoplayerfullscreen/MainActivity.java
+ * https://codelabs.developers.google.com/codelabs/exoplayer-intro/index.html#0
  */
 public class SermonDetailActivity extends AppCompatActivity {
 
@@ -78,14 +82,8 @@ public class SermonDetailActivity extends AppCompatActivity {
         sermonDesc.setText(sermon.getDesc());
         sermonDesc.setMovementMethod(new ScrollingMovementMethod()); // allows you to scroll if the desc is too long
 
-        // sets up the video player and locks the controls to the videoview.
-//        sermonVid = findViewById(R.id.sermonVideo);
-//        mediaController = new MediaController(this);
-//        sermonVid.setMediaController(mediaController);
-//        mediaController.setAnchorView(sermonVid);
         sermonUri = Uri.parse(sermon.getMp4_sd());
-//        sermonVid.setVideoURI(uri);
-//        sermonVid.requestFocus();
+
         mExoPlayerView = findViewById(R.id.sermonVideo);
 
         if (savedInstanceState != null) {
@@ -95,6 +93,10 @@ public class SermonDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Helps with resuming the video on a screen orientation change
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
@@ -120,6 +122,9 @@ public class SermonDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles when the fullscreen button is pressed while already in full screen
+     */
     private void initFullscreenDialog() {
         mFullScreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
             public void onBackPressed() {
@@ -131,6 +136,9 @@ public class SermonDetailActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Opens the full screen view
+     */
     private void openFullscreenDialog() {
         ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
         mFullScreenDialog.addContentView(mExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -139,7 +147,9 @@ public class SermonDetailActivity extends AppCompatActivity {
         mFullScreenDialog.show();
     }
 
-
+    /**
+     * closes the full screen view
+     */
     private void closeFullscreenDialog() {
         ((ViewGroup) mExoPlayerView.getParent()).removeView(mExoPlayerView);
         ((FrameLayout) findViewById(R.id.sermonVideoFrame)).addView(mExoPlayerView);
@@ -148,7 +158,9 @@ public class SermonDetailActivity extends AppCompatActivity {
         mFullScreenIcon.setImageDrawable(ContextCompat.getDrawable(SermonDetailActivity.this, R.drawable.ic_fullscreen_expand));
     }
 
-
+    /**
+     * Handles the creation and implementation of the button that changes fullscreen
+     */
     private void initFullscreenButton() {
         PlayerControlView controlView = mExoPlayerView.findViewById(R.id.exo_controller);
         mFullScreenIcon = controlView.findViewById(R.id.exo_fullscreen_icon);
@@ -164,6 +176,9 @@ public class SermonDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * When the view is loaded, this handles starting the video and setting the URI
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -186,6 +201,9 @@ public class SermonDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This is what kills the video so that memory doesnt leak
+     */
     @Override
     protected void onPause() {
 
