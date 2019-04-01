@@ -135,7 +135,6 @@ public class SermonDetailActivity extends AppCompatActivity {
         };
     }
 
-
     /**
      * Opens the full screen view
      */

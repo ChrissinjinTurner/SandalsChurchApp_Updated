@@ -11,17 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/sermonVideo"
-            app:controller_layout_id="@layout/custom_playback_control"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp" />
+            android:layout_marginBottom="0dp"
+            app:controller_layout_id="@layout/custom_playback_control" />
     </FrameLayout>
 
     <TextView
