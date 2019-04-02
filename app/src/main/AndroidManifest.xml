@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SermonDetailActivity"
-            android:screenOrientation="portrait"></activity>
+            android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".SeriesListActivity"
             android:screenOrientation="portrait"></activity>
     </application>

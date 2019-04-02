@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.android.christophersinjinturner.sandalschurchapp"
         minSdkVersion 24
@@ -29,4 +33,7 @@ dependencies {
     //Third party libraries
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Exoplayer integration
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
 }
