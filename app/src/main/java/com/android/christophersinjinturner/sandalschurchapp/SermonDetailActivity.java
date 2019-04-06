@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,9 +63,7 @@ public class SermonDetailActivity extends AppCompatActivity {
         // setup for custom action bar with sandals logo
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customView = inflater.inflate(R.layout.custom_actionbar, null);
-        actionBar.setCustomView(customView);
+        actionBar.setCustomView(R.layout.custom_actionbar);
         actionBar.setDisplayShowCustomEnabled(true);
 
         // sets up the back button

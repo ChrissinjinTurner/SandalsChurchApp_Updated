@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customView = inflater.inflate(R.layout.activity_main, null);
-        actionBar.setCustomView(customView);
+        actionBar.setCustomView(R.layout.activity_main);
         actionBar.setDisplayShowCustomEnabled(true);
 
         AsyncTask.execute(new Runnable() {

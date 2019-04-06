@@ -9,9 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -43,9 +41,7 @@ public class SeriesListActivity extends AppCompatActivity {
         // setup for custom action bar with sandals logo
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customView = inflater.inflate(R.layout.custom_actionbar, null);
-        actionBar.setCustomView(customView);
+        actionBar.setCustomView(R.layout.custom_actionbar);
         actionBar.setDisplayShowCustomEnabled(true);
 
         // handles the back button
