@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_horizontal"
+        android:id="@+id/toolbar_Main">
+        <ImageView
+            android:id="@+id/customTitle_Main"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/sandals_app_title"
+            android:layout_centerHorizontal="true"/>
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/latest_sermon"
         android:layout_width="106dp"
