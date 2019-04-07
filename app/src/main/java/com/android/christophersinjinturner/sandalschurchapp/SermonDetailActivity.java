@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,7 +123,8 @@ public class SermonDetailActivity extends AppCompatActivity {
         boolean haveResumePosition = mResumeWindow != C.INDEX_UNSET;
 
         if (haveResumePosition) {
-            mExoPlayerView.getPlayer().seekTo(mResumeWindow, mResumePosition);
+            Log.d("PLAYER", "initExoPlayer: RESUMED");
+            player.seekTo(mResumePosition);
         }
     }
 
@@ -226,7 +228,10 @@ public class SermonDetailActivity extends AppCompatActivity {
 
         super.onPause();
 
+        closeFullscreenDialog();
+
         if (mExoPlayerView != null && mExoPlayerView.getPlayer() != null) {
+            Log.d("POSITION", "onPause: POSITION SAVED");
             mResumeWindow = mExoPlayerView.getPlayer().getCurrentWindowIndex();
             mResumePosition = Math.max(0, mExoPlayerView.getPlayer().getContentPosition());
 
